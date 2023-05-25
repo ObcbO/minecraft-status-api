@@ -1,12 +1,18 @@
-const serverStatus = require('./mc-server-status');
+const { serverStatus } = require('./mc-server-status');
 const express = require('express');
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 // 定义路由
-app.get('/:ip/:port', async (req, res) => {
-  const { ip, port } = req.params;
-  let response = await getInfo(ip, port);
+app.get('/api/status', (req, res) => {
+  const { ip, port } = req.query;
+  let response = getInfo(ip, port);
   res.json(response);
+});
+// 404 错误处理中间件
+app.use((req, res, next) => {
+  // res.redirect('https://www.minecraft.net');
 });
 
 // 启动服务器
