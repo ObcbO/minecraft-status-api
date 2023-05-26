@@ -1,14 +1,25 @@
-const { serverStatus } = require('./mc-server-status');
+const util = require('minecraft-server-util');
 const express = require('express');
 const app = express();
+const options = {
+  timeout: 1000 * 5, // timeout in milliseconds
+  enableSRV: true // SRV record lookup
+};
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // 定义路由
-app.get('/api/status', (req, res) => {
+app.get('/api/status', async (req, res) => {
   const { ip, port } = req.query;
-  let response = getInfo(ip, port);
-  res.json(response);
+  try {
+    let info = util.status(ip, parseInt(port) || 25565, options);
+  } catch (error) {
+
+  }
+  util.status(ip, parseInt(port) || 25565, options)
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  //res.json();
 });
 // 404 错误处理中间件
 app.use((req, res, next) => {
