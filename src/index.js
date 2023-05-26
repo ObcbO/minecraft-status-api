@@ -1,7 +1,7 @@
 const util = require('minecraft-server-util');
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 443;
 const be_options = {
   enableSRV: true // SRV record lookup
 };
