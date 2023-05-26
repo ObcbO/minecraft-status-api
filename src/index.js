@@ -1,7 +1,7 @@
 const util = require('minecraft-server-util');
 const express = require('express');
 const app = express();
-const port = 443;
+const port = 8080;
 const be_options = {
   enableSRV: true // SRV record lookup
 };
@@ -15,8 +15,8 @@ app.use(express.json());
 // 定义路由
 app.get('/api/status', async (req, res) => {
   let { ip, port, edition } = req.query;
-  port = parseInt(port) || (edition == "be") ? 19132 : 25565;
   edition = (edition == "") ? "je" : edition;
+  port = parseInt(port) || ((edition == "be") ? 19132 : 25565);
   let response = {
     ip: ip,
     port: port,
