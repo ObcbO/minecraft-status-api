@@ -1,6 +1,7 @@
 const util = require('minecraft-server-util');
 const express = require('express');
 const app = express();
+const port = 3000;
 const be_options = {
   enableSRV: true // SRV record lookup
 };
@@ -42,23 +43,6 @@ app.use((req, res, next) => {
 });
 
 // 启动服务器
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
-
-function getInfo(ip, port) {
-  let response = {
-    ip: ip,
-    port: port
-  };
-  try {
-    response['info'] = 'success';
-    let info = serverStatus({ host: ip, port: port, timeout: 6000 });
-    response = { ...response, ...info };
-  } catch (err) {
-    response['info'] = 'fail';
-    response['reason'] = err;
-    console.log(err);
-  }
-  return response;
-}
